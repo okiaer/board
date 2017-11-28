@@ -8,4 +8,5 @@ Created on Tue Nov 28 14:12:24 2017
 speeds = input("Input the speed of the boxes separated by comma:")
 speeds = [int(sp) for sp in speeds.split(',')]
 
-print(min(speeds))
+throughput = "The throughput is "+str(min(speeds))
+print(throughput)
