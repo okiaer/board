@@ -40,12 +40,6 @@ day = 1
 while True:
     print('\nDay '+str(day)+':')
     
-    # Fill queues
-    fillQueues(queues, local_throughput)
-    
-    # Clear queues
-    clearQueues(queues, local_throughput)
-    
     throughput = queues[-1]
     acc_throughput += throughput
     queues[-1] = 0
@@ -67,3 +61,9 @@ while True:
     day += 1
     inp = input('Press enter for next day or "q" to quit')
     if inp == 'q': break
+
+    # Fill queues
+    fillQueues(queues, local_throughput)
+    
+    # Clear queues
+    clearQueues(queues, local_throughput)
