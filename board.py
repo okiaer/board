@@ -17,7 +17,16 @@ def clearQueues(queues, local_throughput):
     for i in range(n_procs):
         if i > 0:
             local_throughput[i] = min(queues[i-1], speeds[i])
-            queues[i-1] = queues[i-1] - local_throughput[i]                    
+            queues[i-1] = queues[i-1] - local_throughput[i]    
+
+def findBottleneck(queues):
+    bottleneckIndex = None
+    for i, queue in enumerate(queues[::-1]):
+        if queue != 0:
+            bottleneckIndex = n_procs - i
+            break
+    return bottleneckIndex
+            
 
 speeds = input("Input the speed of the boxes separated by comma:")
 
@@ -38,25 +47,20 @@ while True:
     
     throughput = queues[-1]
     queues[-1] = 0
-    # Find bottleneck
-    bottleneckIndex = None
-    revqueues = queues[:]
-    revqueues.reverse()
-    for i, queue in enumerate(revqueues):
-        if queue != 0:
-            bottleneckIndex = n_procs - i
-            break
-    
+          
+    bottleneckIndex = findBottleneck(queues)
     if bottleneckIndex is not None:
         print('The bottleneck is process number ' + str(bottleneckIndex + 1))
     else:
         print('There is no bottleneck.')
+        
+    # WIP
+    wip = sum(local_throughput) + sum(queues)
     
-    #nonemptyQueues = filter(lambda x: x != 0, queues[:-1])
-    #bottleneckIndex = None if len(nonemptyQueues) == 0 else nonemptyQueues[-1] + 1
     
     print('Throughput: '+str(throughput))
     print('Queues: ' + str(queues[:-1]))
+    print('WIP: '+ str(wip))
     day += 1
     inp = input('Press enter for next day or "q" to quit')
     if inp == 'q': break
