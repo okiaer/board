@@ -35,6 +35,7 @@ n_procs = len(speeds)
 queues = [0]*n_procs
 local_throughput = [0]*n_procs
 local_throughput[0] = speeds[0]
+acc_throughput = 0
 day = 1
 while True:
     print('\nDay '+str(day)+':')
@@ -46,23 +47,23 @@ while True:
     clearQueues(queues, local_throughput)
     
     throughput = queues[-1]
+    acc_throughput += throughput
     queues[-1] = 0
           
     bottleneckIndex = findBottleneck(queues)
-    if bottleneckIndex is not None:
-        print('The bottleneck is process number ' + str(bottleneckIndex + 1))
-    else:
-        print('There is no bottleneck.')
-        
+    
     # WIP
     wip = sum(local_throughput) + sum(queues)
     
+    if bottleneckIndex is not None:
+        print('The bottleneck is process number ' + str(bottleneckIndex + 1))
+    else:
+        print('There is no bottleneck.')    
     
-    print('Throughput: '+str(throughput))
     print('Queues: ' + str(queues[:-1]))
     print('WIP: '+ str(wip))
+    print('Throughput: '+str(throughput))
+    print('Accumulative throughput: '+str(acc_throughput))
     day += 1
     inp = input('Press enter for next day or "q" to quit')
     if inp == 'q': break
-
-
