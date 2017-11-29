@@ -49,15 +49,17 @@ while True:
     # WIP
     wip = sum(local_throughput) + sum(queues)
     
+    print('Queues: ' + str(queues[:-1]))
+    print('Active tasks: ' + str(local_throughput))
+    print('WIP: '+ str(wip))
+    print('Throughput: '+str(throughput))
+    print('Accumulative throughput: '+str(acc_throughput))
+    
     if bottleneckIndex is not None:
         print('The bottleneck is process number ' + str(bottleneckIndex + 1))
     else:
         print('There is no bottleneck.')    
     
-    print('Queues: ' + str(queues[:-1]))
-    print('WIP: '+ str(wip))
-    print('Throughput: '+str(throughput))
-    print('Accumulative throughput: '+str(acc_throughput))
     day += 1
     inp = input('Press enter for next day or "q" to quit')
     if inp == 'q': break
