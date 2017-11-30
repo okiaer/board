@@ -38,14 +38,18 @@ def getCycleTime(queues, speeds, n_procs):
         cycletime += int(queues[i]/speeds[i+1])
     return cycletime
             
-processes = input('Input the names of your processes: ')
+processes = input('Enter the names of your processes separated by comma: ')
 processes = [str(proc) for proc in processes.split(',')]
 
-speeds = input("Input the speed of the boxes separated by comma: ")
+n_procs = len(processes)
 
-speeds = [int(sp) for sp in speeds.split(',')]
-n_procs = len(speeds)
-queues = [0]*n_procs
+speeds = [0] * n_procs
+
+for i in range(n_procs):
+    speed = input('Enter the speed of the "' + processes[i] + '" process: ')
+    speeds[i] = int(speed)
+
+queues = [0] * n_procs
 local_throughput = [0]*n_procs
 local_throughput[0] = speeds[0]
 acc_throughput = 0
@@ -81,7 +85,7 @@ while True:
     print('Cycle time: '+str(cycle_time))
     
     if bottleneckIndex is not None:
-        print('The bottleneck is process number ' + str(bottleneckIndex + 1))
+        print('The bottleneck is  the "' + processes[bottleneckIndex] + '" process')
     else:
         print('There is no bottleneck.')    
     
@@ -90,10 +94,12 @@ while True:
     inp = input('\nPress enter for next day, "q" to quit, or "m" to modify process speeds: ')
     if inp == 'q': break
     if inp == 'm':
-        print('Current speeds: ' + str(speeds))
-        processToModify = input('Enter the number of the process to change: ')
+        print('Which process would you like to change?')
+        for proc in n_procs:
+            print(processes[proc] + ': ' + str(proc + 1))
+        processToModify = input('')
         newSpeed = input('Enter the new speed: ')
-        speeds[int(processToModify)-1] = int(newSpeed)
+        speeds[int(processToModify) - 1] = int(newSpeed)
 
     # Fill queues
     fillQueues(queues, local_throughput)
