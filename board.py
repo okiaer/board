@@ -38,8 +38,10 @@ def getCycleTime(queues, speeds, n_procs):
         cycletime += int(queues[i]/speeds[i+1])
     return cycletime
             
+processes = input('Input the names of your processes: ')
+processes = [str(proc) for proc in processes.split(',')]
 
-speeds = input("Input the speed of the boxes separated by comma:")
+speeds = input("Input the speed of the boxes separated by comma: ")
 
 speeds = [int(sp) for sp in speeds.split(',')]
 n_procs = len(speeds)
@@ -50,7 +52,7 @@ acc_throughput = 0
 day = 1
 while True:
 
-    print('\n\n' + '#' * 20)
+    print('\n')
 
     throughput = queues[-1]
     acc_throughput += throughput
@@ -63,7 +65,7 @@ while True:
     cycle_time = getCycleTime(queues, speeds, n_procs)
     
     # Add headers
-    headers = ['Day ' + str(day)] + [('Process ' + str(i+1)) for i in range(n_procs)]
+    headers = ['Day ' + str(day)] + [processes[i] for i in range(n_procs)]
     table = PrettyTable(headers)
 
     # Add rows
@@ -73,9 +75,6 @@ while True:
 
     print(table)
 
-    #print('Queues: ' + str(queues[:-1]))
-    #print('Active tasks: ' + str(local_throughput))
-    print('\n')
     print('WIP: '+ str(wip))
     print('Throughput: '+str(throughput))
     print('Accumulative throughput: '+str(acc_throughput))
@@ -86,13 +85,14 @@ while True:
     else:
         print('There is no bottleneck.')    
     
+    processToModify = '-1'
     day += 1
-    inp = input('Press enter for next day, "q" to quit, or "m" to modify process speeds:')
+    inp = input('\nPress enter for next day, "q" to quit, or "m" to modify process speeds: ')
     if inp == 'q': break
     if inp == 'm':
         print('Current speeds: ' + str(speeds))
-        processToModify = input('Which process would you like to modify the speed of?')
-        newSpeed = input('Enter the new speed:')
+        processToModify = input('Enter the number of the process to change: ')
+        newSpeed = input('Enter the new speed: ')
         speeds[int(processToModify)-1] = int(newSpeed)
 
     # Fill queues
