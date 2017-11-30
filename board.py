@@ -6,6 +6,8 @@ Created on Tue Nov 28 14:12:24 2017
 @author: OKiaer
 """
 
+from prettytable import PrettyTable
+
 def fillQueues(queues, local_throughput):
     n_procs = len(queues)
     for i in range(n_procs):
@@ -47,8 +49,9 @@ local_throughput[0] = speeds[0]
 acc_throughput = 0
 day = 1
 while True:
-    print('\nDay '+str(day)+':')
-    
+
+    print('\n\n' + '#' * 20)
+
     throughput = queues[-1]
     acc_throughput += throughput
     queues[-1] = 0
@@ -59,8 +62,20 @@ while True:
     
     cycle_time = getCycleTime(queues, speeds, n_procs)
     
-    print('Queues: ' + str(queues[:-1]))
-    print('Active tasks: ' + str(local_throughput))
+    # Add headers
+    headers = ['Day ' + str(day)] + [('Process ' + str(i+1)) for i in range(n_procs)]
+    table = PrettyTable(headers)
+
+    # Add rows
+    table.add_row(['Speed'] + speeds)
+    table.add_row(['Active tasks'] + local_throughput)
+    table.add_row(['Queue'] + ['N/A'] + queues[:-1])
+
+    print(table)
+
+    #print('Queues: ' + str(queues[:-1]))
+    #print('Active tasks: ' + str(local_throughput))
+    print('\n')
     print('WIP: '+ str(wip))
     print('Throughput: '+str(throughput))
     print('Accumulative throughput: '+str(acc_throughput))
