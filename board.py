@@ -87,16 +87,19 @@ while True:
         print('There is no bottleneck.')    
     
     day += 1
-    inp = input('Press enter for next day, "q" to quit, or "m" to modify process speeds')
+    inp = input('Press enter for next day, "q" to quit, or "m" to modify process speeds:')
     if inp == 'q': break
     if inp == 'm':
         print('Current speeds: ' + str(speeds))
         processToModify = input('Which process would you like to modify the speed of?')
         newSpeed = input('Enter the new speed:')
-        speeds[int(processToModify)] = int(newSpeed)
+        speeds[int(processToModify)-1] = int(newSpeed)
 
     # Fill queues
     fillQueues(queues, local_throughput)
     
     # Clear queues
     clearQueues(queues, local_throughput)
+
+    if int(processToModify) == 1:
+        local_throughput[0] = speeds[0]
