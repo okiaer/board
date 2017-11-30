@@ -8,7 +8,6 @@ Created on Tue Nov 28 14:12:24 2017
 
 from prettytable import PrettyTable
 import matplotlib.pyplot as plt
-import pdb
 
 def fillQueues(queues, local_throughput):
     n_procs = len(queues)
@@ -41,7 +40,6 @@ def getCycleTime(queues, speeds, n_procs):
     return cycletime
 
 def plotCFD(cfd):
-    colors = ['r', 'b', 'g', 'y', 'k']
     fig, ax = plt.subplots()
     plt.title('Control Flow Diagram')
     plt.xlabel('Number of days')
@@ -49,7 +47,6 @@ def plotCFD(cfd):
     for i in range(len(cfd)):
         x = [(n+1) for n in range(len(cfd[i]))] # days
         y = cfd[i]
-        #plt.plot(x, y)
         ax.stackplot(x, y)
     plt.show()
 
@@ -128,9 +125,8 @@ while True:
             ans = input('Press enter for next day, or "m" to modify another process: ')
             if ans != 'm':
                 keepUpdating = False
-    if inp == 'p':
-        print('plotting ...')
-        plotCFD(cfd)
+    if inp == 'p': plotCFD(cfd)
+    
     # Fill queues
     fillQueues(queues, local_throughput)
     
