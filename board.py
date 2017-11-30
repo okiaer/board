@@ -1,3 +1,4 @@
+# pylint: disable-all
 # -*- coding: utf-8 -*-
 """
 Created on Tue Nov 28 14:12:24 2017
@@ -26,7 +27,7 @@ def findBottleneck(queues):
             bottleneckIndex = n_procs - i
             break
     return bottleneckIndex
-            
+
 
 speeds = input("Input the speed of the boxes separated by comma:")
 
@@ -61,8 +62,13 @@ while True:
         print('There is no bottleneck.')    
     
     day += 1
-    inp = input('Press enter for next day or "q" to quit')
+    inp = input('Press enter for next day, "q" to quit, or "m" to modify process speeds')
     if inp == 'q': break
+    if inp == 'm':
+        print('Current speeds: ' + str(speeds))
+        processToModify = input('Which process would you like to modify the speed of?')
+        newSpeed = input('Enter the new speed:')
+        speeds[int(processToModify)] = int(newSpeed)
 
     # Fill queues
     fillQueues(queues, local_throughput)
