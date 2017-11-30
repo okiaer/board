@@ -30,6 +30,8 @@ def findBottleneck(queues):
 def getCycleTime(queues, speeds, n_procs):
     cycletime = n_procs
     for i in range(n_procs-1):
+        if speeds[i+1] == 0:
+            return 'infinite'
         cycletime += int(queues[i]/speeds[i+1])
     return cycletime
             
