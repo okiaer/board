@@ -28,6 +28,14 @@ def findBottleneck(queues):
             break
     return bottleneckIndex
 
+def getCycleTime(queues, speeds, n_procs):
+    cycletime = n_procs
+    for i in range(n_procs-1):
+        if speeds[i+1] == 0:
+            return 'infinite'
+        cycletime += int(queues[i]/speeds[i+1])
+    return cycletime
+            
 
 speeds = input("Input the speed of the boxes separated by comma:")
 
@@ -47,14 +55,16 @@ while True:
           
     bottleneckIndex = findBottleneck(queues)
     
-    # WIP
     wip = sum(local_throughput) + sum(queues)
+    
+    cycle_time = getCycleTime(queues, speeds, n_procs)
     
     print('Queues: ' + str(queues[:-1]))
     print('Active tasks: ' + str(local_throughput))
     print('WIP: '+ str(wip))
     print('Throughput: '+str(throughput))
     print('Accumulative throughput: '+str(acc_throughput))
+    print('Cycle time: '+str(cycle_time))
     
     if bottleneckIndex is not None:
         print('The bottleneck is process number ' + str(bottleneckIndex + 1))
