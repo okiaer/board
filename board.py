@@ -7,6 +7,8 @@ Created on Tue Nov 28 14:12:24 2017
 """
 
 from prettytable import PrettyTable
+import matplotlib.pyplot as plt
+import pdb
 
 def fillQueues(queues, local_throughput):
     n_procs = len(queues)
@@ -37,7 +39,20 @@ def getCycleTime(queues, speeds, n_procs):
             return 'infinite'
         cycletime += int(queues[i]/speeds[i+1])
     return cycletime
-            
+
+def plotCFD(cfd):
+    colors = ['r', 'b', 'g', 'y', 'k']
+    fig, ax = plt.subplots()
+    plt.title('Control Flow Diagram')
+    plt.xlabel('Number of days')
+    plt.ylabel('Work in progress')
+    for i in range(len(cfd)):
+        x = [(n+1) for n in range(len(cfd[i]))] # days
+        y = cfd[i]
+        #plt.plot(x, y)
+        ax.stackplot(x, y)
+    plt.show()
+
 processes = input('Enter the names of your processes separated by comma: ')
 processes = [str(proc) for proc in processes.split(',')]
 
@@ -54,6 +69,12 @@ local_throughput = [0]*n_procs
 local_throughput[0] = speeds[0]
 acc_throughput = 0
 day = 1
+
+cfd = [0] * n_procs
+
+for i in range(n_procs):
+    cfd[i] = [0]
+
 while True:
 
     print('\n')
@@ -83,7 +104,10 @@ while True:
     print('Throughput: '+str(throughput))
     print('Accumulative throughput: '+str(acc_throughput))
     print('Cycle time: '+str(cycle_time))
-    
+
+    for i in range(0, n_procs):
+        cfd[i].append(cfd[i][day-1] + local_throughput[i])
+
     if bottleneckIndex is not None:
         print('The bottleneck is  the "' + processes[bottleneckIndex] + '" process')
     else:
@@ -104,7 +128,9 @@ while True:
             ans = input('Press enter for next day, or "m" to modify another process: ')
             if ans != 'm':
                 keepUpdating = False
-
+    if inp == 'p':
+        print('plotting ...')
+        plotCFD(cfd)
     # Fill queues
     fillQueues(queues, local_throughput)
     
