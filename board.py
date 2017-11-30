@@ -94,12 +94,16 @@ while True:
     inp = input('\nPress enter for next day, "q" to quit, or "m" to modify process speeds: ')
     if inp == 'q': break
     if inp == 'm':
-        print('Which process would you like to change?')
-        for proc in n_procs:
-            print(processes[proc] + ': ' + str(proc + 1))
-        processToModify = input('')
-        newSpeed = input('Enter the new speed: ')
-        speeds[int(processToModify) - 1] = int(newSpeed)
+        keepUpdating = True
+        while keepUpdating:
+            for proc in range(n_procs):
+                print('[' + str(proc + 1) + ']: ' + processes[proc])
+            processToModify = input('Which process number would you like to change? ')
+            newSpeed = input('Enter the new speed for ' + processes[int(processToModify) - 1] + ': ')
+            speeds[int(processToModify) - 1] = int(newSpeed)
+            ans = input('Press enter for next day, or "m" to modify another process: ')
+            if ans != 'm':
+                keepUpdating = False
 
     # Fill queues
     fillQueues(queues, local_throughput)
